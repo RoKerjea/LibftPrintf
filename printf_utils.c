@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   printf_utils.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rokerjea <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/02/22 19:18:42 by rokerjea          #+#    #+#             */
+/*   Updated: 2022/02/22 19:18:47 by rokerjea         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "libftprintf.h"
 
@@ -21,67 +32,40 @@ int	ft_putstr(char *str)
 	return (write(1, str, ft_strlen(str)));
 }
 
-void	ft_putnbr(int nb)
+int	ft_putnbr(int nb)
 {
-	long n;
+	int		count;
+	long	n;
 
 	n = nb;
+	count = 0;
 	if (n < 0)
 	{
 		ft_putchar('-');
 		n *= -1;
-	}
-	if (n >= 10)
-		ft_putnbr(n / 10);
-	ft_putchar('0' + n % 10);
-}
-
-void	ft_putnbr_unsi(unsigned int nb)
-{
-	if (nb >= 10)
-		ft_putnbr_unsi(nb / 10);
-	ft_putchar('0' + nb % 10);
-}
-
-int ft_count_number_unsi(unsigned int nb)
-{
-	int count;
-	
-	count = 0;
-	ft_putnbr_unsi(nb);
-	while (nb)
-	{
-		nb /= 10;
 		count++;
 	}
+	if (n >= 10)
+		count += ft_putnbr(n / 10);
+	count += ft_putchar('0' + n % 10);
 	return (count);
 }
 
-int ft_count_number(int nb)
+int	ft_putnbr_unsi(unsigned int nb)
 {
-	long n;
-	int count;
-	
-	n = nb;
+	int	count;
+
 	count = 0;
-	if (n < 0)
-	{
-		count = 1;
-		n *= -1;
-	}
-	while (n)
-	{
-		n /= 10;
-		count++;
-	}
-	ft_putnbr(nb);
+	if (nb >= 10)
+		count += ft_putnbr_unsi(nb / 10);
+	count += ft_putchar('0' + nb % 10);
 	return (count);
 }
 
 int	ft_putnbr_base_lhexa(unsigned int nbr)
 {
 	int		count;
-	char *base;
+	char	*base;
 	long	nb;
 	char	c;
 
@@ -101,7 +85,7 @@ int	ft_putnbr_base_lhexa(unsigned int nbr)
 int	ft_putnbr_base_uhexa(unsigned int nbr)
 {
 	int		count;
-	char *base;
+	char	*base;
 	long	nb;
 	char	c;
 
@@ -118,9 +102,9 @@ int	ft_putnbr_base_uhexa(unsigned int nbr)
 	return (count);
 }
 
-int	ft_putpercent()
+int	ft_putpercent(void)
 {
-	char c;
+	char	c;
 
 	c = '%';
 	return (write(1, &c, 1));
@@ -131,10 +115,27 @@ int	ft_putpoint(unsigned int nbr)
 	int	count;
 
 	count = 0;
-	count += ft_putstr("0x");
+	count += ft_putstr("0x10");
 	count += ft_putnbr_base_lhexa(nbr);
 	return (count);
 }
+
+int	ft_char_in_base(char c, char *base)
+{
+	int	i;
+
+	i = 0;
+	if (c == base[i])
+		return (i);
+	while (c != base[i] && base[i])
+	{
+		i++;
+		if (c == base[i])
+			return (i);
+	}
+	return (-1);
+}
+
 /*
 #include <stdio.h>
 int	main()

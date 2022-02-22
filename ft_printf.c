@@ -21,9 +21,9 @@ int	ft_parse(va_list ap, const char *text, int i)
 	if (text[i] == 'p')
 		return (ft_putpoint(va_arg(ap, unsigned int)));
 	if (text[i] == 'd' || text[i] == 'i')
-		return (ft_count_number(va_arg(ap, int)));
+		return (ft_putnbr(va_arg(ap, int)));
 	if (text[i] == 'u')
-		return (ft_count_number_unsi(va_arg(ap, unsigned int)));
+		return (ft_putnbr_unsi(va_arg(ap, unsigned int)));
 	if (text[i] == 'x')
 		return (ft_putnbr_base_lhexa(va_arg(ap, unsigned int)));
 	if (text[i] == 'X')
@@ -45,15 +45,13 @@ int	ft_printf(const char *text, ...)
 	while (text[i])
 	{
 		while (text[i] && text[i] != '%')
-		{
-			write(1, &text[i++], 1);
-			count++;
-		}
-		if (text[i] == '%')
-		{
+			count += write(1, &text[i++], 1);
+		if (text[i] == '%' && ft_char_in_base(text[i + 1], "cspdiuxX%") == -1)
 			i++;
-			count += ft_parse(ap, text, i);
-			i++;
+		if (text[i] == '%' && ft_char_in_base(text[i + 1], "cspdiuxX%") >= 0)
+		{
+			count += ft_parse(ap, text, i + 1);
+			i += 2;
 		}
 	}
 	va_end(ap);
