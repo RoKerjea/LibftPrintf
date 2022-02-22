@@ -12,25 +12,24 @@
 
 #include "libftprintf.h"
 
-int	ft_strlen(char *str)
-{
-	int	i;
-
-	i = 0;
-	while (str[i])
-		i++;
-	return (i);
-}
-
-int	ft_putstr(char *str)
-{
-	return (write(1, str, ft_strlen(str)));
-}
-
 int	ft_parse(va_list ap, const char *text, int i)
 {
+	if (text[i] == 'c')
+		return (ft_putchar(va_arg(ap, int)));
 	if (text[i] == 's')
 		return (ft_putstr(va_arg(ap, char *)));
+	if (text[i] == 'p')
+		return (ft_putpoint(va_arg(ap, unsigned int)));
+	if (text[i] == 'd' || text[i] == 'i')
+		return (ft_count_number(va_arg(ap, int)));
+	if (text[i] == 'u')
+		return (ft_count_number_unsi(va_arg(ap, unsigned int)));
+	if (text[i] == 'x')
+		return (ft_putnbr_base_lhexa(va_arg(ap, unsigned int)));
+	if (text[i] == 'X')
+		return (ft_putnbr_base_uhexa(va_arg(ap, unsigned int)));
+	if (text[i] == '%')
+		return (ft_putpercent());
 	return (0);
 }
 
