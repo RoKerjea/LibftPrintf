@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libftprintf.h"
+#include "ft_printf.h"
 
 int	ft_strlen(char *str)
 {
@@ -29,6 +29,11 @@ int	ft_putchar(char c)
 
 int	ft_putstr(char *str)
 {
+	char *null;
+
+	null = "(null)";
+	if (!str)
+		return (write(1, null, 6));
 	return (write(1, str, ft_strlen(str)));
 }
 
@@ -60,80 +65,6 @@ int	ft_putnbr_unsi(unsigned int nb)
 		count += ft_putnbr_unsi(nb / 10);
 	count += ft_putchar('0' + nb % 10);
 	return (count);
-}
-
-int	ft_putnbr_base_lhexa(unsigned int nbr)
-{
-	int		count;
-	char	*base;
-	long	nb;
-	char	c;
-
-	count = 0;
-	base = "0123456789abcdef";
-	nb = nbr;
-	if (nb >= 10)
-	{
-		count += ft_putnbr_base_lhexa(nb / 16);
-	}
-	c = base[nb % 16];
-	if (!(count == 0 && c == '0'))
-		count += write(1, &c, 1);
-	return (count);
-}
-
-int	ft_putnbr_base_uhexa(unsigned int nbr)
-{
-	int		count;
-	char	*base;
-	long	nb;
-	char	c;
-
-	count = 0;
-	base = "0123456789ABCDEF";
-	nb = nbr;
-	if (nb >= 10)
-	{
-		count += ft_putnbr_base_uhexa(nb / 16);
-	}
-	c = base[nb % 16];
-	if (!(count == 0 && c == '0'))
-		count += write(1, &c, 1);
-	return (count);
-}
-
-int	ft_putpercent(void)
-{
-	char	c;
-
-	c = '%';
-	return (write(1, &c, 1));
-}
-
-int	ft_putpoint(unsigned int nbr)
-{
-	int	count;
-
-	count = 0;
-	count += ft_putstr("0x10");
-	count += ft_putnbr_base_lhexa(nbr);
-	return (count);
-}
-
-int	ft_char_in_base(char c, char *base)
-{
-	int	i;
-
-	i = 0;
-	if (c == base[i])
-		return (i);
-	while (c != base[i] && base[i])
-	{
-		i++;
-		if (c == base[i])
-			return (i);
-	}
-	return (-1);
 }
 
 /*

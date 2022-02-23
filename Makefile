@@ -1,5 +1,5 @@
 SRCS= ft_printf.c printf_utils.c printf_utils2.c
-HEAD	= libftprintf.h
+HEAD	= ft_printf.h
 RM		= rm -rf
 NAME	= libftprintf.a
 CC 		= gcc
@@ -14,9 +14,11 @@ all:		${NAME}
 %.o: %.c %.h
 	$(CC) $(CFLAGS) -c $< -o $@
 
-clean:		${RM} ${OBJECTS}
+clean:		
+	${RM} ${OBJECTS}
 
-fclean:		clean ${RM} ${NAME} 
+fclean:		clean 
+	${RM} ${NAME} 
 
 re:			fclean all
 

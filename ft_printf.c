@@ -10,7 +10,20 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libftprintf.h"
+#include "ft_printf.h"
+
+int	ft_print_base(int nb, char c)
+{
+	char zero;
+
+	zero = '0';
+	if (nb == 0)
+		return (write(1, &zero, 1));
+	if (c == 'x')
+		return (ft_putnbr_hexa(nb, "0123456789abcdef"));
+	else
+		return (ft_putnbr_hexa(nb, "0123456789ABCDEF"));
+}
 
 int	ft_parse(va_list ap, const char *text, int i)
 {
@@ -19,15 +32,13 @@ int	ft_parse(va_list ap, const char *text, int i)
 	if (text[i] == 's')
 		return (ft_putstr(va_arg(ap, char *)));
 	if (text[i] == 'p')
-		return (ft_putpoint(va_arg(ap, unsigned int)));
+		return (ft_putpoint(va_arg(ap, unsigned long long)));
 	if (text[i] == 'd' || text[i] == 'i')
 		return (ft_putnbr(va_arg(ap, int)));
 	if (text[i] == 'u')
 		return (ft_putnbr_unsi(va_arg(ap, unsigned int)));
-	if (text[i] == 'x')
-		return (ft_putnbr_base_lhexa(va_arg(ap, unsigned int)));
-	if (text[i] == 'X')
-		return (ft_putnbr_base_uhexa(va_arg(ap, unsigned int)));
+	if (text[i] == 'x' || text[i] == 'X')
+		return (ft_print_base(va_arg(ap, unsigned int), text[i]));
 	if (text[i] == '%')
 		return (ft_putpercent());
 	return (0);
@@ -55,6 +66,6 @@ int	ft_printf(const char *text, ...)
 		}
 	}
 	va_end(ap);
-	printf ("Number of char printed : %i\n", count);
+	//printf ("Number of char printed by my ft_printf: %i\n", count);
 	return (count);
 }
