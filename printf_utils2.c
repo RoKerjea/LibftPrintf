@@ -12,7 +12,7 @@
 
 #include "ft_printf.h"
 
-int	ft_putnbr_hexa(unsigned int nbr, char *base)
+int	ft_printnbr_hexa(unsigned int nbr, char *base)
 {
 	int		count;
 	long	nb;
@@ -22,7 +22,7 @@ int	ft_putnbr_hexa(unsigned int nbr, char *base)
 	nb = nbr;
 	if (nb >= 10)
 	{
-		count += ft_putnbr_hexa(nb / 16, base);
+		count += ft_printnbr_hexa(nb / 16, base);
 	}
 	c = base[nb % 16];
 	if (!(count == 0 && c == '0'))
@@ -30,7 +30,7 @@ int	ft_putnbr_hexa(unsigned int nbr, char *base)
 	return (count);
 }
 
-int	ft_putpercent(void)
+int	ft_printpercent(void)
 {
 	char	c;
 
@@ -38,17 +38,15 @@ int	ft_putpercent(void)
 	return (write(1, &c, 1));
 }
 
-int	ft_putnbr_hexapoint(unsigned long long nbr, char *base)
+int	ft_printnbr_hexapoint(unsigned long long nbr, char *base)
 {
 	int		count;
-//	long	nb;
 	char	c;
 
 	count = 0;
-	//nb = nbr;
 	if (nbr >= 10)
 	{
-		count += ft_putnbr_hexapoint(nbr / 16, base);
+		count += ft_printnbr_hexapoint(nbr / 16, base);
 	}
 	c = base[nbr % 16];
 	if (!(count == 0 && c == '0'))
@@ -56,20 +54,20 @@ int	ft_putnbr_hexapoint(unsigned long long nbr, char *base)
 	return (count);
 }
 
-int	ft_putpoint(unsigned long long nbr)
+int	ft_printpoint(unsigned long long nbr)
 {
-	char zero;
-	int	count;
+	char	zero;
+	int		count;
 
 	count = 0;
 	zero = '0';
-	count += ft_putstr("0x");
+	count += ft_printstr("0x");
 	if (nbr == 0)
 	{
 		count += write(1, &zero, 1);
 		return (count);
 	}
-	count += ft_putnbr_hexapoint(nbr, "0123456789abcdef");
+	count += ft_printnbr_hexapoint(nbr, "0123456789abcdef");
 	return (count);
 }
 

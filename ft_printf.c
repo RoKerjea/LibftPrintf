@@ -14,33 +14,33 @@
 
 int	ft_print_base(int nb, char c)
 {
-	char zero;
+	char	zero;
 
 	zero = '0';
 	if (nb == 0)
 		return (write(1, &zero, 1));
 	if (c == 'x')
-		return (ft_putnbr_hexa(nb, "0123456789abcdef"));
+		return (ft_printnbr_hexa(nb, "0123456789abcdef"));
 	else
-		return (ft_putnbr_hexa(nb, "0123456789ABCDEF"));
+		return (ft_printnbr_hexa(nb, "0123456789ABCDEF"));
 }
 
 int	ft_parse(va_list ap, const char *text, int i)
 {
 	if (text[i] == 'c')
-		return (ft_putchar(va_arg(ap, int)));
+		return (ft_printchar(va_arg(ap, int)));
 	if (text[i] == 's')
-		return (ft_putstr(va_arg(ap, char *)));
+		return (ft_printstr(va_arg(ap, char *)));
 	if (text[i] == 'p')
-		return (ft_putpoint(va_arg(ap, unsigned long long)));
+		return (ft_printpoint(va_arg(ap, unsigned long long)));
 	if (text[i] == 'd' || text[i] == 'i')
-		return (ft_putnbr(va_arg(ap, int)));
+		return (ft_printnbr(va_arg(ap, int)));
 	if (text[i] == 'u')
-		return (ft_putnbr_unsi(va_arg(ap, unsigned int)));
+		return (ft_printnbr_unsi(va_arg(ap, unsigned int)));
 	if (text[i] == 'x' || text[i] == 'X')
 		return (ft_print_base(va_arg(ap, unsigned int), text[i]));
 	if (text[i] == '%')
-		return (ft_putpercent());
+		return (ft_printpercent());
 	return (0);
 }
 
@@ -66,6 +66,5 @@ int	ft_printf(const char *text, ...)
 		}
 	}
 	va_end(ap);
-	//printf ("Number of char printed by my ft_printf: %i\n", count);
 	return (count);
 }
